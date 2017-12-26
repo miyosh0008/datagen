@@ -136,17 +136,20 @@ def date_field_argument(arg):
         raise Exception('date field is missing required argument "after"')
 
     tformat = "%Y-%m-%d"
+    if 'tformat' in args:
+        tformat = args['tformat']
+
     before = mktime(strptime(args['before'], tformat))
     after = mktime(strptime(args['after'], tformat))
 
-    return before, after
+    return before, after, tformat
 
 
 @register_type("date")
 def date_field(args):
-    before, after = args
+    before, after, tformat = args
 
-    return strftime("%Y-%m-%d", localtime(before + random() * (after - before)))
+    return strftime(tformat, localtime(before + random() * (after - before)))
 
 
 @type_arg("datetime")

@@ -7,6 +7,7 @@ type        randomset[admin,editor,user,guest]
 is_active   bool
 ip          ipv4
 dob         date[after=1945-01-01, before=2001-01-01]
+created     date[after=2012/01/01, before=2014/07/01, tformat=%Y/%m/%d]
 ssn         ssn
 zip         zipcode
 state       state
