@@ -45,7 +45,7 @@ def type_arg(name):
 
 
 def arg_parser(arg):
-    arglist = [a.split('=') for a in arg.replace(' ', '').split(',')]
+    arglist = [a.strip().split('=') for a in arg.split(',')]
 
     args = {}
     for pack in arglist:
@@ -136,17 +136,20 @@ def date_field_argument(arg):
         raise Exception('date field is missing required argument "after"')
 
     tformat = "%Y-%m-%d"
+    if 'tformat' in args:
+        tformat = args['tformat']
+
     before = mktime(strptime(args['before'], tformat))
     after = mktime(strptime(args['after'], tformat))
 
-    return before, after
+    return before, after, tformat
 
 
 @register_type("date")
 def date_field(args):
-    before, after = args
+    before, after, tformat = args
 
-    return strftime("%Y-%m-%d", localtime(before + random() * (after - before)))
+    return strftime(tformat, localtime(before + random() * (after - before)))
 
 
 @type_arg("datetime")
@@ -158,17 +161,20 @@ def datetime_field_argument(arg):
         raise Exception('datetime field is missing required argument "after"')
 
     tformat = "%Y-%m-%dT%H:%M:%S"
+    if 'tformat' in args:
+        tformat = args['tformat']
+
     before = mktime(strptime(args['before'], tformat))
     after = mktime(strptime(args['after'], tformat))
 
-    return before, after
+    return before, after, tformat
 
 
 @register_type("datetime")
 def datetime_field(args):
-    before, after = args
+    before, after, tformat = args
     t = localtime(before + random() * (after - before))
-    return datetime(*t[:6]).isoformat()
+    return datetime(*t[:6]).strftime(tformat)
 
 
 @register_type("ssn")
