@@ -11,4 +11,5 @@ created     date[after=2012/01/01, before=2014/07/01, tformat=%Y/%m/%d]
 ssn         ssn
 zip         zipcode
 state       state
-#last_login  datetime[after=2012-01-01T00:00:00, before=2014-07-01T00:00:00]
+last_login  datetime[after=2012-01-01T00:00:00, before=2014-07-01T00:00:00]
+updated     datetime[after=2012-01-01|00:00:00, before=2014-07-01|00:00:00, tformat=%Y-%m-%d|%H:%M:%S]
