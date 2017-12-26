@@ -45,7 +45,7 @@ def type_arg(name):
 
 
 def arg_parser(arg):
-    arglist = [a.split('=') for a in arg.replace(' ', '').split(',')]
+    arglist = [a.strip().split('=') for a in arg.split(',')]
 
     args = {}
     for pack in arglist:
