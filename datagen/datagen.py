@@ -63,6 +63,7 @@ def read_schema_file(path):
 def main():
     parser = argparse.ArgumentParser(description='Generate dummy data')
     parser.add_argument('-d', '--delimiter', required=False, help='Delimter to use. Default is |')
+    parser.add_argument('-q', '--quotechar', required=False, help='Quote character to use. Default is none')
     parser.add_argument('--with-header', required=False, action='store_true', help='Write column headers as first row')
     parser.add_argument('-n', '--num-rows', required=True, help='Number of rows to write')
     parser.add_argument('-s', '--schema', required=True, help='Schema file to load')
@@ -81,7 +82,11 @@ def main():
 
     names, fieldtypes = read_schema_file(args.schema)
 
-    writer = csv.writer(output, delimiter=delimiter)
+    if args.quotechar:
+        quotechar = args.quotechar
+        writer = csv.writer(output, delimiter=delimiter, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+    else:
+        writer = csv.writer(output, delimiter=delimiter)
 
     num_rows = int(args.num_rows)
 
